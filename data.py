@@ -104,8 +104,9 @@ def load_and_transform_vision_data(image_paths, device, to_tensor=True):
                     transforms.CenterCrop(224)
                 ]
             )
-        with open(image_path, "rb") as fopen:
-            image = Image.open(fopen).convert("RGB")
+        image_cv2 = cv2.imread(image_path)
+        image_rgb = cv2.cvtColor(image_cv2, cv2.COLOR_BGR2RGB)
+        image = Image.fromarray(image_rgb)
 
         if to_tensor:
             image = data_transform(image).to(device)
